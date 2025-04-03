@@ -1,0 +1,27 @@
+@import url("_buttons.scss");
+
+.wrapper {
+    .ball-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px 20px;
+        flex-wrap: wrap;
+
+        .ball {
+            width: 100px;
+            height: 100px;
+            background: url("../assets/ball.png") no-repeat center;
+            background-size: cover;
+            position: relative;
+
+            span {
+                position: absolute;
+                top: 25px;
+                right: 20px;
+                font-weight: bolder;
+                font-size: 25px;
+            }
+        }
+    }
+}
