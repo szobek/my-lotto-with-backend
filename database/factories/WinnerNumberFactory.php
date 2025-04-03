@@ -17,7 +17,7 @@ class WinnerNumberFactory extends Factory
     public function definition(): array
     {
         return [
-            'numbers' => '['.rand(1,90).','.rand(1,90).','.rand(1,90).','.rand(1,90).','.rand(1,90).']'
+            'numbers' => rand(1,90).','.rand(1,90).','.rand(1,90).','.rand(1,90).','.rand(1,90)
         ];
     }
 }

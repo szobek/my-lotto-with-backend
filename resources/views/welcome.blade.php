@@ -20,6 +20,9 @@
 </head>
 
 <body>
+    @foreach($array as $item)
+{{$item}}
+    @endforeach
     <div id="wrapper" class="wrapper"></div>
     <button class="base-btn" id="sorsolo-btn">Sorsolás</button>
     <div id="dashboard"></div>
