@@ -1,6 +1,6 @@
 @import url("_buttons.scss");
 
-.wrapper {
+#wrapper {
     .ball-row {
         display: flex;
         flex-direction: row;
@@ -23,5 +23,14 @@
                 font-size: 25px;
             }
         }
+    }
+}
+
+#dashboard{
+    th{
+        padding: 2px 5px;
+    }
+    td{
+        text-align: center;
     }
 }

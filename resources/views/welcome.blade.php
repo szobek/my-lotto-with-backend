@@ -15,15 +15,20 @@
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
     @vite(['resources/css/app.css', 'resources/js/app.js','resources/scss/app.scss'])
     @else
-    
+
     @endif
 </head>
 
 <body>
-    @foreach($array as $item)
-{{$item}}
-    @endforeach
-    <div id="wrapper" class="wrapper"></div>
+    <script>
+        const dashboardNumbers = @json($dash);
+        const winner_numbers = @json($winner_numbers);
+        document.addEventListener("DOMContentLoaded", () => {
+            lotto.createDashboardFromNums(dashboardNumbers);
+            lotto.createBalls(winner_numbers);
+        });
+    </script>
+    <div id="wrapper"></div>
     <div id="dashboard"></div>
 </body>
 
