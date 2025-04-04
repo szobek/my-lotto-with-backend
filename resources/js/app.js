@@ -42,10 +42,7 @@ class Lotto {
         }
     }
     createEventListeners() {
-        document.getElementById("sorsolo-btn")
-            .addEventListener("click", () => {
-                sorsol()
-            });
+        
     }
 
     writeNumsToDashboard() {
