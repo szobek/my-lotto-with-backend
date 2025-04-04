@@ -13,9 +13,8 @@
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-    @vite(['resources/css/app.css', 'resources/js/app.js','resources/scss/app.scss'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/scss/app.scss'])
     @else
-
     @endif
 </head>
 
@@ -29,7 +28,10 @@
         });
     </script>
     <div id="wrapper"></div>
-    <div id="dashboard"></div>
+    <div class="kimutatas">
+        <p class="title">Kimutatás</p>
+        <div id="dashboard"></div>
+    </div>
 </body>
 
 </html>
