@@ -1,4 +1,4 @@
-import './bootstrap';
+import * as bootstrap from 'bootstrap';
 class Lotto {
     constructor() {
         this.createDashboardFromNums()
@@ -22,6 +22,11 @@ class Lotto {
    
     createDashboardFromNums(lastNumbers) {
         const wrapper = document.getElementById("dashboard")
+        if (!wrapper) {
+            console.error("Dashboard element not found");
+            return;
+        }
+        
         wrapper.innerHTML = "";
 
         const table = document.createElement("table");
