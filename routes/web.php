@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LottoController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -29,3 +30,5 @@ Route::get('/dashboard', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/lotto', [LottoController::class, 'index'])->middleware('auth')->name('lotto');

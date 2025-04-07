@@ -68,4 +68,8 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/');
     }
+    public static function isLoggedIn()
+    {
+        return Auth::check();
+    }
 }
