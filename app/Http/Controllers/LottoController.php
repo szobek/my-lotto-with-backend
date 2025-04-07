@@ -12,9 +12,7 @@ class LottoController extends Controller
   
     public function index()
     {
-        if (!Auth::check()) {
-            return redirect('/login'); // Redirect to login if not authenticated
-        } 
+      
         $winner_numbers = $this->generateNumbers();
         // WinnerNumber::create([
         //     'numbers' => implode(',', $winner_numbers),
