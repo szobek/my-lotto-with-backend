@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Balance;
 use App\Models\WinnerNumber;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -51,5 +52,11 @@ class LottoController extends Controller
         }
         sort($numbers);
         return $numbers;
+    }
+    public function user_balance()
+    {
+
+        $user = Auth::user();
+        dd(Balance::where('user_id', $user->id)->first()->balance);
     }
 }

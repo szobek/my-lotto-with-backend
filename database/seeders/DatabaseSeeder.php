@@ -6,6 +6,7 @@ use App\Models\Balance;
 use App\Models\User;
 use App\Models\WinnerNumber;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,5 +18,14 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         WinnerNumber::factory(3)->create();
         Balance::factory(10)->create();
+        User::create([
+            'name' => 'admin',
+            'email' =>  'admin@admin',
+            'password' => Hash::make('admin'),
+            'email_verified_at' => now(),
+            'remember_token' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }
