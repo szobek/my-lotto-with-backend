@@ -27,8 +27,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', function () {
     return 'Welcome to the dashboard!';
 })->middleware('auth');
-Auth::routes();
+Auth::routes([
+    "verify" => true
+]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/lotto', [LottoController::class, 'index'])->middleware('auth')->name('lotto');
+Route::get('/lotto', [LottoController::class, 'index'])->middleware('auth')->middleware("verified")->name('lotto');

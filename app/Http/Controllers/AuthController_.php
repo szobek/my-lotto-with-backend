@@ -55,9 +55,9 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect('/dashboard');
+        return redirect('/');
     }
 
     // Handle logout request
