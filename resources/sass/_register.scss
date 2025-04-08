@@ -17,9 +17,24 @@
             flex-direction: column;
             margin: 10px 0;
             label {
-                font-size: 20px;
+                font-size: 1rem;
                 font-weight: bolder;
                 margin-bottom: 5px;
+                @media (min-width: 544px) {  
+                    color: #467953;
+                  }
+                   
+                  @media (min-width: 768px) {  
+                    color: #795946;
+                  }
+                   
+                  @media (min-width: 992px) { 
+                    color: #794c46;
+                  }
+                   
+                  @media (min-width: 1200px) {  
+                    color: #66355b;
+                  }
             }
             input {
                 padding: 10px;
