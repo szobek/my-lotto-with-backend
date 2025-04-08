@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Balance;
+use App\Models\Ticket;
 use App\Models\User;
 use App\Models\WinnerNumber;
 use Illuminate\Database\Seeder;
@@ -15,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        Ticket::factory(200)->create();
         WinnerNumber::factory(3)->create();
         Balance::factory(10)->create();
         User::create([
