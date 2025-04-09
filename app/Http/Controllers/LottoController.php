@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Balance;
+use App\Models\Ticket;
 use App\Models\WinnerNumber;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -57,11 +58,22 @@ class LottoController extends Controller
     {
 
         $user = Auth::user();
-        dd(Balance::where('user_id', $user->id)->first()->balance);
+        dd($user->id);
     }
 
     public function indexTest()
     {
+        $user = Auth::user();
+        // $numbers = $this->generateNumbers();
+    //    dd($user);
+        // Ticket::create([
+        //     'user_id' => $user->id,
+        //     'numbers' => implode(',', $numbers),
+        //     'created_at' => Carbon::now(),
+        // ]);
+
+        
+        
         return 'Lotto route is working';
     }
 
