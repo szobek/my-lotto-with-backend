@@ -32,6 +32,4 @@ Auth::routes([
 ]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/lotto', [LottoController::class, 'index'])->middleware('auth')->middleware("verified")->name('lotto');
 Route::get('/balance', [LottoController::class, 'user_balance'])->middleware('auth')->middleware("verified")->name('balance');

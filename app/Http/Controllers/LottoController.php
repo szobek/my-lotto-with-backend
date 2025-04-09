@@ -59,4 +59,11 @@ class LottoController extends Controller
         $user = Auth::user();
         dd(Balance::where('user_id', $user->id)->first()->balance);
     }
+
+    public function indexTest()
+    {
+        return 'Lotto route is working';
+    }
+
+   
 }
