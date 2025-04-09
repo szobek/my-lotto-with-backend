@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LottoController extends Controller
 {
-  
+
     public function index()
     {
-      
+
         $winner_numbers = $this->generateNumbers();
         // WinnerNumber::create([
         //     'numbers' => implode(',', $winner_numbers),
@@ -58,24 +58,35 @@ class LottoController extends Controller
     {
 
         $user = Auth::user();
-        dd($user->id);
+        $balance = Balance::where('user_id', $user->id)->first();
+        
+        dd($balance);
     }
 
-    public function indexTest()
+    public function listTickets()
     {
         $user = Auth::user();
-        // $numbers = $this->generateNumbers();
-    //    dd($user);
-        // Ticket::create([
-        //     'user_id' => $user->id,
-        //     'numbers' => implode(',', $numbers),
-        //     'created_at' => Carbon::now(),
-        // ]);
-
-        
-        
-        return 'Lotto route is working';
+        $tickets = Ticket::where('user_id', $user->id)->get();
+        return view('lotto.ticket-list', compact('tickets'));
     }
 
-   
+    public function createTicketView()
+    {
+        return view('lotto.ticket-create');
+    }
+    public function createTicketStore(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'numbers' => 'required|string|between:1,90',
+        ]);
+        $numbers = $request->input('numbers');
+        
+        $ticket = new Ticket();
+        $ticket->user_id = $user->id;
+        $ticket->numbers = $numbers;
+        $ticket->save();
+        // dd($numbers);
+        return redirect('/lotto/ticket/list');
+    }
 }

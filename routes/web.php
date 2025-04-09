@@ -38,5 +38,8 @@ Route::get('/balance', [LottoController::class, 'user_balance'])->middleware('au
 
 
 Route::group(['middleware' => 'auth','prefix' => 'lotto'], function () {
-    Route::get('/ticket', [LottoController::class, 'indexTest'])->name('lotto.ticket');
+    Route::get('/ticket/list', [LottoController::class, 'listTickets'])->name('lotto.ticket.list');
+    Route::get('/ticket/create', [LottoController::class, 'createTicketView'])->name('lotto.ticket.create');
+    Route::post('/ticket/create', [LottoController::class, 'createTicketStore'])->name('lotto.ticket.store');
+    Route::get('/balance', [LottoController::class, 'user_balance'])->name('lotto.balance');
 });
