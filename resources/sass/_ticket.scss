@@ -1,0 +1,22 @@
+$selected-bg-color: #5c8d3f;
+$selected-text-color: #fff;
+
+#number-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .number{
+        width: 30px;
+        height: 30px;   
+        margin: 5px;
+        border: 1px solid #000;
+        text-align: center;
+        line-height: 12px;
+        padding: 5px;
+        cursor: pointer;
+        &.selected{
+            background-color: $selected-bg-color;
+            color: $selected-text-color;
+        }
+    }
+}

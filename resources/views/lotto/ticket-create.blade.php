@@ -5,16 +5,14 @@
         {{-- <form action="{{ route('lotto.ticket.store') }}" method="POST"> --}}
         <form action="" method="POST">
             @csrf
-            <div class="mb-3">
-                <label for="numbers" class="form-label">Enter Numbers (comma separated)</label>
-                <input type="text" class="form-control" id="numbers" name="numbers" required>
+            <div id="ticket">
+                <h1>Jelölj be számokat</h1>
+                <div id="number-wrapper"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Create Ticket</button>
+            <button type="submit" class="btn btn-primary">Mentés</button>
         </form>
-        <div class="mt-4">
-            <h2>Instructions</h2>
-            <p>Please enter your lotto numbers in the format: 1,2,3,4,5,6</p>
-            <p>Make sure to separate each number with a comma.</p>
+     
     </div>
+
 @endsection
 @section('title', 'Lotto Ticket Create')
