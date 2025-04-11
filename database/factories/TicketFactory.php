@@ -18,7 +18,8 @@ class TicketFactory extends Factory
     {
         return [
             'numbers' => rand(1,90).','.rand(1,90).','.rand(1,90).','.rand(1,90).','.rand(1,90),
-            'user_id' => \App\Models\User::factory(),
+            'user_id' => rand(1, 10), // Assuming you have 10 users in your database
+            'status' => 'inactive', 
         ];
     }
 }

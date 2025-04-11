@@ -4,7 +4,7 @@
     <h1 class="text-center">Lotto Ticket List</h1>
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-bordered">
+            <table class="table table-bordered ticket-list-table">
                 <thead>
                     <tr>
                         <th>Ticket ID</th>
@@ -15,7 +15,7 @@
                 </thead>
                 <tbody>
                     @foreach($tickets as $ticket)
-                        <tr>
+                        <tr class="{{ ($ticket->status === 'active') ? 'active' : 'inactive' }}">
                             <td>{{ $ticket->id }}</td>
                             <td>{{  $ticket->numbers }}</td>
                             <td>{{ $ticket->created_at }}</td>

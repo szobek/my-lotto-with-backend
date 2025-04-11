@@ -1,6 +1,32 @@
 $selected-bg-color: #5c8d3f;
 $selected-text-color: #fff;
 
+
+.ticket-list-table{
+    thead{}
+    tbody{
+        tr{
+            &.active{
+                background-color: #b4ecbd;
+                font-weight: bold;
+                td{
+                    background-color: transparent;
+                }
+            }
+            &.inactive{
+                background-color: #f8d7da;
+                td{
+                    background-color: transparent;
+                }
+            }
+            td{
+                padding: 5px;
+                text-align: center;
+                border: 1px solid #000;
+            }
+        }
+    }
+}
 #save-ticket{
     &:disabled{
         background-color: #e09f9f;
