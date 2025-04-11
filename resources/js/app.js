@@ -85,6 +85,12 @@ class Lotto {
                     }
                 }
                 selectedNumbers.sort((a, b) => a - b);
+                document.querySelector("#numbers").value = selectedNumbers.join(", ");
+                if (selectedNumbers.length === 5) {
+                 document.querySelector("#save-ticket").disabled = false;
+                } else {
+                    document.querySelector("#save-ticket").disabled = true;
+                }
             });
         }
     }

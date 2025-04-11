@@ -76,17 +76,30 @@ class LottoController extends Controller
     }
     public function createTicketStore(Request $request)
     {
+        // dd($request->all());
+        $numbers = $request->input('numbers');
         $user = Auth::user();
         $request->validate([
-            'numbers' => 'required|string|between:1,90',
+            'numbers' => 'required|string',
         ]);
-        $numbers = $request->input('numbers');
-        
+        $numbersInRequest = explode(',', $numbers);
+        $errors=[];
+        foreach ($numbersInRequest as $number) {
+            if (!is_numeric($number) || $number < 1 || $number > 90) {
+                $errors['numbers'] = 'A számoknak 1 és 90 között kell lenniük!';
+                
+            }
+        }
+        if (count($numbersInRequest) != 5) {
+            $errors['numbersLength'] = 'A számoknak 5-nek kell lennie!';
+        }
+        if (count($errors) > 0) {
+            return redirect()->back()->withErrors($errors);
+        }
         $ticket = new Ticket();
         $ticket->user_id = $user->id;
         $ticket->numbers = $numbers;
         $ticket->save();
-        // dd($numbers);
         return redirect('/lotto/ticket/list');
     }
 }

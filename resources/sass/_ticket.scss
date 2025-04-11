@@ -1,6 +1,13 @@
 $selected-bg-color: #5c8d3f;
 $selected-text-color: #fff;
 
+#save-ticket{
+    &:disabled{
+        background-color: #e09f9f;
+        cursor: not-allowed;
+        pointer-events: auto;
+    }
+}
 #number-wrapper{
     display: flex;
     flex-direction: row;
