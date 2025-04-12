@@ -96,10 +96,19 @@ class LottoController extends Controller
         if (count($errors) > 0) {
             return redirect()->back()->withErrors($errors);
         }
-        $ticket = new Ticket();
-        $ticket->user_id = $user->id;
-        $ticket->numbers = $numbers;
-        $ticket->save();
+        $balance=$user->balanceData->balance;
+        if($balance>100){
+
+            $ticket = new Ticket();
+            $ticket->user_id = $user->id;
+            $ticket->numbers = $numbers;
+            $ticket->save();
+            $data=[];
+            $ticketPrice=env("ticketPrice",200);
+            $data["balance"]=$balance-$ticketPrice;
+            Balance::where('user_id', $user->id)->update($data);
+            
+        }
         return redirect('/lotto/ticket/list');
     }
 }
