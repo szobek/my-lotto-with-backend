@@ -104,7 +104,7 @@ class LottoController extends Controller
             $ticket->numbers = $numbers;
             $ticket->save();
             $data=[];
-            $ticketPrice=env("ticketPrice",200);
+            $ticketPrice=env("TICKET_PRICE",200);
             $data["balance"]=$balance-$ticketPrice;
             Balance::where('user_id', $user->id)->update($data);
             
