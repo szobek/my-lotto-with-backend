@@ -160,7 +160,7 @@ class LottoController extends Controller
         }
         $resultOfCheck['wn'] = implode(',', $winner_numbers);
         $this->setUserBalance($resultOfCheck);
-        // $this->setTicketToInactive();
+        $this->setTicketToInactive();
         return $resultOfCheck;
     }
 
