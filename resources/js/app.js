@@ -2,7 +2,8 @@ import * as bootstrap from 'bootstrap';
 class Lotto {
     saveBtn = document.querySelector("#save-ticket");
     selectedNumbers = [];
-    hiddenNumberInput=document.querySelector("#numbers")
+    hiddenNumberInput = document.querySelector("#numbers")
+    randomNumbersButton = document.querySelector("#random-numbers")
     constructor() {
         this.createDashboardFromNums()
         if (document.querySelector("#number-wrapper")) {
@@ -13,11 +14,12 @@ class Lotto {
                 const wrapper = document.querySelector("#number-wrapper");
                 wrapper.appendChild(number);
             }
-        this.creatEventListenerToNumbers()
-        this.createEventListenerToSaveButton()
+            this.creatEventListenerToNumbers()
+            this.createEventListenerToSaveButton()
+            this.randomNumbersButton.addEventListener("click", this.checkRandomNumbers.bind(this))
         }
     }
-
+    
     createBalls(numbers) {
         const wrapper = document.querySelector("#wrapper")
         wrapper.innerHTML = "";
@@ -33,19 +35,19 @@ class Lotto {
             row.appendChild(ballElement);
         }
     }
-   
+    
     createDashboardFromNums(lastNumbers) {
         const wrapper = document.getElementById("dashboard")
         if (wrapper) {
             wrapper.innerHTML = "";
-
+            
             const table = document.createElement("table");
             const thead = document.createElement("thead");
             const tbody = document.createElement("tbody");
-    
+            
             table.appendChild(thead);
             table.appendChild(tbody);
-    
+
             const headerRow = document.createElement("tr");
             const headerCell = document.createElement("th");
             const headerCell2 = document.createElement("th");
@@ -54,9 +56,9 @@ class Lotto {
             headerRow.appendChild(headerCell);
             headerRow.appendChild(headerCell2);
             thead.appendChild(headerRow);
-    
+            
             wrapper.appendChild(table);
-    
+            
             const rows = [];
             for (const num in lastNumbers) {
                 const row = document.createElement("tr");
@@ -68,8 +70,8 @@ class Lotto {
                 row.appendChild(cell2);
                 rows.push(row);
             }
-    
-            tbody.append(...rows);    
+            
+            tbody.append(...rows);
         }
         
         
@@ -77,16 +79,16 @@ class Lotto {
     creatEventListenerToNumbers() {
         const numbers = document.querySelectorAll(".number");
         for (const number of numbers) {
-            number.addEventListener("click", ()=>{
+            number.addEventListener("click", () => {
                 this.clickOnNumber(number)
             });
         }
     }
-    createEventListenerToSaveButton(){
+    createEventListenerToSaveButton() {
         this.saveBtn.addEventListener("click", this.submitForm);
     }
-    clickOnNumber(number){
-        const num = number.textContent;
+    clickOnNumber(number) {
+        const num = Number(number.textContent);
         if (this.selectedNumbers.includes(num)) {
             number.classList.remove("selected");
             this.selectedNumbers.splice(this.selectedNumbers.indexOf(num), 1);
@@ -104,14 +106,39 @@ class Lotto {
             this.saveBtn.disabled = true;
         }
     }
-    
-    submitForm(){
+
+    submitForm() {
         document.querySelector("#save-ticket").disabled = true;
         document.getElementById("ticket-form").submit()
+    }
+    generateRandomNumbers() {
+        const numbers = [];
+        while (numbers.length < 5) {
+            const num = Math.floor(Math.random() * 90) + 1;
+            if (!numbers.includes(num)) {
+                numbers.push(num);
+            }
+        }
+        return numbers;
+    }
+    checkRandomNumbers() {
+        const randomNumbers = this.generateRandomNumbers()
+        this.selectedNumbers=randomNumbers
+        this.selectedNumbers.sort((a, b) => a - b);
+        this.hiddenNumberInput.value = this.selectedNumbers.join(", ");
+        const numbers = document.querySelectorAll(".number");
+        
+        for (const number of numbers) {
+            number.classList.remove("selected");
+        }
+        for (const number of numbers) {
+            if (this.selectedNumbers.includes(Number(number.textContent))) {
+                number.classList.add("selected");
+            }
+        }
     }
 }
 
 const lotto = new Lotto();
 window.lotto = lotto;
-window.submitForm = lotto.submitForm.bind(lotto);
 

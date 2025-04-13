@@ -21,8 +21,9 @@
                 <input type="hidden" name="numbers" id="numbers" value="">
             </div>
         </form>
-        <button  class="btn btn-primary" id="save-ticket" disabled>Mentés</button>
-
+        <button id="random-numbers" class="btn btn-secondary">Véletlen számok</button>
+        <hr>
+        <button  class="btn btn-primary" id="save-ticket" >Mentés</button>
     </div>
 
 @endsection
