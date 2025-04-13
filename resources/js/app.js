@@ -1,5 +1,8 @@
 import * as bootstrap from 'bootstrap';
 class Lotto {
+    saveBtn = document.querySelector("#save-ticket");
+    selectedNumbers = [];
+    hiddenNumberInput=document.querySelector("#numbers")
     constructor() {
         this.createDashboardFromNums()
         if (document.querySelector("#number-wrapper")) {
@@ -11,6 +14,7 @@ class Lotto {
                 wrapper.appendChild(number);
             }
         this.creatEventListenerToNumbers()
+        this.createEventListenerToSaveButton()
         }
     }
 
@@ -72,30 +76,42 @@ class Lotto {
     }
     creatEventListenerToNumbers() {
         const numbers = document.querySelectorAll(".number");
-        const selectedNumbers = [];
         for (const number of numbers) {
-            number.addEventListener("click", () => {
-                const num = number.textContent;
-                if (selectedNumbers.includes(num)) {
-                    number.classList.remove("selected");
-                    selectedNumbers.splice(selectedNumbers.indexOf(num), 1);
-                } else {
-                    if (selectedNumbers.length < 5) {
-                        selectedNumbers.push(num);
-                        number.classList.add("selected");
-                    }
-                }
-                selectedNumbers.sort((a, b) => a - b);
-                document.querySelector("#numbers").value = selectedNumbers.join(", ");
-                if (selectedNumbers.length === 5) {
-                 document.querySelector("#save-ticket").disabled = false;
-                } else {
-                    document.querySelector("#save-ticket").disabled = true;
-                }
+            number.addEventListener("click", ()=>{
+                this.clickOnNumber(number)
             });
         }
+    }
+    createEventListenerToSaveButton(){
+        this.saveBtn.addEventListener("click", this.submitForm);
+    }
+    clickOnNumber(number){
+        const num = number.textContent;
+        if (this.selectedNumbers.includes(num)) {
+            number.classList.remove("selected");
+            this.selectedNumbers.splice(this.selectedNumbers.indexOf(num), 1);
+        } else {
+            if (this.selectedNumbers.length < 5) {
+                this.selectedNumbers.push(num);
+                number.classList.add("selected");
+            }
+        }
+        this.selectedNumbers.sort((a, b) => a - b);
+        this.hiddenNumberInput.value = this.selectedNumbers.join(", ");
+        if (this.selectedNumbers.length === 5) {
+            this.saveBtn.disabled = false;
+        } else {
+            this.saveBtn.disabled = true;
+        }
+    }
+    
+    submitForm(){
+        document.querySelector("#save-ticket").disabled = true;
+        document.getElementById("ticket-form").submit()
     }
 }
 
 const lotto = new Lotto();
 window.lotto = lotto;
+window.submitForm = lotto.submitForm.bind(lotto);
+
