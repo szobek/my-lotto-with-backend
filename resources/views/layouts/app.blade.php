@@ -31,11 +31,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @auth
-                        @if (Route::has('lotto.drawn') && Auth::user()->hasRole(5))
-                        <li class="nav-item">
-                            <a class="nav-link" href="/lotto/drawn">Sorsolás</a> 
-                        </li>
-                        @endif
+                       
                         <li class="nav-item">
                             <a class="nav-link" href="/lotto/ticket/list">Szelvények</a>
                         </li>
@@ -75,7 +71,9 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
+                                    @if (Route::has('lotto.drawn') && Auth::user()->hasRole(5))
+                                        <a class="dropdown-item" href="/lotto/drawn">Sorsolás</a> 
+                                    @endif
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
