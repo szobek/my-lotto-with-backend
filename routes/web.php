@@ -33,6 +33,7 @@ Auth::routes([
 
 
 
+Route::get('/roles', [App\Http\Controllers\HomeController::class, 'rolesView'])->name('roles.myroles');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth','prefix' => 'lotto'], function () {

@@ -71,7 +71,7 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-                                    @if (Route::has('lotto.drawn') && Auth::user()->hasRole(5))
+                                    @if (Route::has('lotto.drawn') && Auth::user()->hasRole(21))
                                         <a class="dropdown-item" href="/lotto/drawn">Sorsolás</a> 
                                     @endif
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

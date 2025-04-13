@@ -33,5 +33,17 @@ class DatabaseSeeder extends Seeder
         ]);
         Role::factory(20)->create();
         UserRole::factory(10)->create();
+        Role::create([
+            'name' => 'Sorsolás',
+            'description' => 'Engedi a sorsolás megjelenítését',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        UserRole::create([
+            'user_id' => 101,
+            'role_id' => 21,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }
