@@ -159,7 +159,7 @@ class LottoController extends Controller
             array_push($resultOfCheck["tickets"], $dataOfTicket);
         }
         $resultOfCheck['wn'] = implode(',', $winner_numbers);
-        // $this->setUserBalance($resultOfCheck);
+        $this->setUserBalance($resultOfCheck);
         // $this->setTicketToInactive();
         return $resultOfCheck;
     }
@@ -173,7 +173,7 @@ class LottoController extends Controller
     private function setUserBalance(array $data)
     {
 
-        foreach ($data as $ticket) {
+        foreach ($data["tickets"] as $ticket) {
             if (count($ticket) > 0) {
                 $user = User::find($ticket['user_id']);
                 $balance = $user->balance->balance;
