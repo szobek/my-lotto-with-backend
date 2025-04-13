@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -21,7 +21,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'MyLotto') }}
+                    {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -31,6 +31,11 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @auth
+                        @if (Route::has('lotto.drawn') && Auth::user()->hasRole(5))
+                        <li class="nav-item">
+                            <a class="nav-link" href="/lotto/drawn">Sorsolás</a> 
+                        </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="/lotto/ticket/list">Szelvények</a>
                         </li>
@@ -38,14 +43,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/lotto/ticket/create">Szelvény töltése</a>
                         </li>
-
-                        @if (Route::has('lotto.drawn') && Auth::user()->hasRole(5))
-                            <li class="nav-item">
-                                <a class="nav-link" href="/lotto/drawn">Sorsolás</a> 
-                            </li>
-                            @endif
-
-
 
                         @endauth
                     </ul>
@@ -69,7 +66,7 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
-                                    ( {{Auth::user()->balance->balance}} )
+                                    ({{Auth::user()->balance->balance}})
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

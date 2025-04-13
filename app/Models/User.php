@@ -61,12 +61,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasRole(int $userRole)
     {
         $roles=$this->rolesData()->get();
+
         foreach ($roles as $role) {
             if ($role->role_id === $userRole) {
                 return true;
             }
         }
-        return true;
+        return false;
     }
     public function formatName(string $name){
         return "Ticket owner: $name";

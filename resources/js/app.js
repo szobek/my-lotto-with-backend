@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 class Lotto {
     constructor() {
         this.createDashboardFromNums()
