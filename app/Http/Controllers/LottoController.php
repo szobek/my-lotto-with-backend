@@ -87,7 +87,7 @@ class LottoController extends Controller
         if (count($errors) > 0) {
             return redirect()->back()->withErrors($errors);
         }
-        $balance = $user->balanceData->balance;
+        $balance = $user->balance->balance;
         if ($balance > 100) {
 
             $ticket = new Ticket();
