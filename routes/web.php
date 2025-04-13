@@ -34,12 +34,11 @@ Auth::routes([
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/balance', [LottoController::class, 'user_balance'])->middleware('auth');
-
 
 Route::group(['middleware' => 'auth','prefix' => 'lotto'], function () {
     Route::get('/ticket/list', [LottoController::class, 'listTickets'])->name('lotto.ticket.list');
     Route::get('/ticket/create', [LottoController::class, 'createTicketView'])->name('lotto.ticket.create');
     Route::post('/ticket/create', [LottoController::class, 'createTicketStore'])->name('lotto.ticket.store');
-    Route::get('/balance', [LottoController::class, 'user_balance'])->name('lotto.balance');
+    Route::get('/drawn', [LottoController::class, 'drawn'])->name('lotto.drawn');
+
 });

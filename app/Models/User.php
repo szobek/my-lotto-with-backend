@@ -45,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
-    public function balanceData()
+    public function balance()
     {
         return $this->hasOne(Balance::class);
     }
@@ -53,8 +53,22 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Ticket::class);
     }
-    public function roles()
+    private function rolesData()
     {
         return $this->hasMany(UserRole::class);
+    }
+
+    public function hasRole(int $userRole)
+    {
+        $roles=$this->rolesData()->get();
+        foreach ($roles as $role) {
+            if ($role->role_id === $userRole) {
+                return true;
+            }
+        }
+        return true;
+    }
+    public function formatName(string $name){
+        return "Ticket owner: $name";
     }
 }

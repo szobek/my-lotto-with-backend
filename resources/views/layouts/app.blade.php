@@ -39,6 +39,14 @@
                             <a class="nav-link" href="/lotto/ticket/create">Szelvény töltése</a>
                         </li>
 
+                        @if (Route::has('lotto.drawn') && Auth::user()->hasRole(5))
+                            <li class="nav-item">
+                                <a class="nav-link" href="/lotto/drawn">Sorsolás</a> 
+                            </li>
+                            @endif
+
+
+
                         @endauth
                     </ul>
 
@@ -61,7 +69,7 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
-                                    ( {{Auth::user()->balanceData->balance}} )
+                                    ( {{Auth::user()->balance->balance}} )
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

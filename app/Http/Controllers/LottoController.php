@@ -8,6 +8,7 @@ use App\Models\WinnerNumber;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LottoController extends Controller
 {
@@ -54,14 +55,6 @@ class LottoController extends Controller
         sort($numbers);
         return $numbers;
     }
-    public function user_balance()
-    {
-
-        $user = Auth::user();
-        $balance = Balance::where('user_id', $user->id)->first();
-        
-        dd($balance);
-    }
 
     public function listTickets()
     {
@@ -76,18 +69,16 @@ class LottoController extends Controller
     }
     public function createTicketStore(Request $request)
     {
-        // dd($request->all());
         $numbers = $request->input('numbers');
         $user = Auth::user();
         $request->validate([
             'numbers' => 'required|string',
         ]);
         $numbersInRequest = explode(',', $numbers);
-        $errors=[];
+        $errors = [];
         foreach ($numbersInRequest as $number) {
             if (!is_numeric($number) || $number < 1 || $number > 90) {
                 $errors['numbers'] = 'A számoknak 1 és 90 között kell lenniük!';
-                
             }
         }
         if (count($numbersInRequest) != 5) {
@@ -96,19 +87,100 @@ class LottoController extends Controller
         if (count($errors) > 0) {
             return redirect()->back()->withErrors($errors);
         }
-        $balance=$user->balanceData->balance;
-        if($balance>100){
+        $balance = $user->balanceData->balance;
+        if ($balance > 100) {
 
             $ticket = new Ticket();
             $ticket->user_id = $user->id;
             $ticket->numbers = $numbers;
             $ticket->save();
-            $data=[];
-            $ticketPrice=env("TICKET_PRICE",200);
-            $data["balance"]=$balance-$ticketPrice;
+            $data = [];
+            $ticketPrice = env("TICKET_PRICE", 200);
+            $data["balance"] = $balance - $ticketPrice;
             Balance::where('user_id', $user->id)->update($data);
-            
         }
         return redirect('/lotto/ticket/list');
+    }
+
+    private function getWinnerNumbers()
+    {
+        $winner_numbers_ = $this->generateNumbers();
+        $winner_numbers = implode(',', $winner_numbers_);
+        WinnerNumber::create([
+            'numbers' => $winner_numbers,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+        return $winner_numbers_;
+    }
+
+    public function drawn()
+    {
+        $resultOfCheck = $this->checkNumbers();
+        // dd($resultOfCheck);
+        return view('lotto.drawn', compact('resultOfCheck'));
+    }
+
+    private function getTicketsFromDB()
+    {
+        return Ticket::where('status', 'active')->get();
+    }
+    private function checkNumbers()
+    {
+        $winner_numbers = $this->getWinnerNumbers();
+        $win_amount = env("WIN_AMOUNT", 200);
+
+        // lekéri az aktív jegyket
+        $tickets = $this->getTicketsFromDB();
+        $resultOfCheck = ["tickets" => []];
+        foreach ($tickets as $t) {
+            $dataOfTicket = [
+                'status' => $t->status,
+                'id' => $t->id,
+                'numbers' => explode(',', $t->numbers),
+                'numbersInString' => $t->numbers,
+                'user_id' => $t->user_id,
+                'name' => $t->user->name,
+                'email' => $t->user->email,
+                'created' => $t->created_at,
+                'count' => 0,
+                'counted' => [],
+                'winAmount' => 0,
+                'status' => $t->status
+            ];
+            foreach ($winner_numbers as $num) {
+
+                if (in_array($num, $dataOfTicket['numbers'])) {
+                    $dataOfTicket['count']++;
+                    array_push($dataOfTicket['counted'],$num);
+                    $dataOfTicket['winAmount'] = $dataOfTicket['winAmount'] + $win_amount;
+                }
+            }
+            array_push($resultOfCheck["tickets"], $dataOfTicket);
+        }
+        $resultOfCheck['wn'] = implode(',', $winner_numbers);
+        // $this->setUserBalance($resultOfCheck);
+        // $this->setTicketToInactive();
+        return $resultOfCheck;
+    }
+
+    private function setTicketToInactive()
+    {
+        // UPDATE `tickets` SET `status`='active';
+        Ticket::query()->update(['status' => 'inactive']);
+    }
+
+    private function setUserBalance(array $data)
+    {
+
+        foreach ($data as $ticket) {
+            if (count($ticket) > 0) {
+                $user = User::find($ticket['user_id']);
+                $balance = $user->balance->balance;
+                $data = [];
+                $data["balance"] = $balance + $ticket['winAmount'];
+                Balance::where('user_id', $user->id)->update($data);
+            }
+        }
     }
 }
