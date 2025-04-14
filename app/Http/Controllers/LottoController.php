@@ -70,35 +70,37 @@ class LottoController extends Controller
     public function createTicketStore(Request $request)
     {
         $numbers = $request->input('numbers');
+        $ticketPrice = env("TICKET_PRICE", 200);
         $user = Auth::user();
         $request->validate([
             'numbers' => 'required|string',
         ]);
         $numbersInRequest = explode(',', $numbers);
         $errors = [];
+        $balance = ($user->balance) ? $user->balance->balance : 0;
         foreach ($numbersInRequest as $number) {
             if (!is_numeric($number) || $number < 1 || $number > 90) {
                 $errors['numbers'] = 'A számoknak 1 és 90 között kell lenniük!';
             }
         }
+
         if (count($numbersInRequest) != 5) {
             $errors['numbersLength'] = 'A számoknak 5-nek kell lennie!';
+        }
+        if ($balance < $ticketPrice) {
+            $errors["balance"] = "Az egyenleg túl alacsony";
         }
         if (count($errors) > 0) {
             return redirect()->back()->withErrors($errors);
         }
-        $balance = ($user->balance)?$user->balance->balance:0;
-        if ($balance > 100) {
 
-            $ticket = new Ticket();
-            $ticket->user_id = $user->id;
-            $ticket->numbers = $numbers;
-            $ticket->save();
-            $data = [];
-            $ticketPrice = env("TICKET_PRICE", 200);
-            $data["balance"] = $balance - $ticketPrice;
-            Balance::where('user_id', $user->id)->update($data);
-        }
+        $ticket = new Ticket();
+        $ticket->user_id = $user->id;
+        $ticket->numbers = $numbers;
+        $ticket->save();
+        $data = [];
+        $data["balance"] = $balance - $ticketPrice;
+        Balance::where('user_id', $user->id)->update($data);
         return redirect('/lotto/ticket/list');
     }
 
@@ -117,7 +119,7 @@ class LottoController extends Controller
     public function drawn()
     {
         $user = User::find(Auth::user()->id);
-        if(!$user->hasRole(21)) {
+        if (!$user->hasRole(21)) {
             return redirect('/home');
         }
         $resultOfCheck = $this->checkNumbers();
@@ -156,7 +158,7 @@ class LottoController extends Controller
 
                 if (in_array($num, $dataOfTicket['numbers'])) {
                     $dataOfTicket['count']++;
-                    array_push($dataOfTicket['counted'],$num);
+                    array_push($dataOfTicket['counted'], $num);
                     $dataOfTicket['winAmount'] = $dataOfTicket['winAmount'] + $win_amount;
                 }
             }
