@@ -45,5 +45,11 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        Balance::create([
+            'balance' => 10000,
+            'user_id' => 101,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

@@ -87,7 +87,7 @@ class LottoController extends Controller
         if (count($errors) > 0) {
             return redirect()->back()->withErrors($errors);
         }
-        $balance = $user->balance->balance;
+        $balance = ($user->balance)?$user->balance->balance:0;
         if ($balance > 100) {
 
             $ticket = new Ticket();
@@ -116,6 +116,10 @@ class LottoController extends Controller
 
     public function drawn()
     {
+        $user = User::find(Auth::user()->id);
+        if(!$user->hasRole(21)) {
+            return redirect('/home');
+        }
         $resultOfCheck = $this->checkNumbers();
         // dd($resultOfCheck);
         return view('lotto.drawn', compact('resultOfCheck'));
