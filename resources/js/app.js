@@ -136,6 +136,7 @@ class Lotto {
                 number.classList.add("selected");
             }
         }
+        this.saveBtn.disabled = false;
     }
 }
 
