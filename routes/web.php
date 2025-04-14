@@ -31,15 +31,8 @@ Auth::routes([
     "verify" => true
 ]);
 
-
+Route::middleware('auth')->prefix("lotto")->group(base_path('routes/lotto.php'));
 
 Route::get('/roles', [App\Http\Controllers\HomeController::class, 'rolesView'])->name('roles.myroles');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware' => 'auth','prefix' => 'lotto'], function () {
-    Route::get('/ticket/list', [LottoController::class, 'listTickets'])->name('lotto.ticket.list');
-    Route::get('/ticket/create', [LottoController::class, 'createTicketView'])->name('lotto.ticket.create');
-    Route::post('/ticket/create', [LottoController::class, 'createTicketStore'])->name('lotto.ticket.store');
-    Route::get('/drawn', [LottoController::class, 'drawn'])->name('lotto.drawn');
-
-});
