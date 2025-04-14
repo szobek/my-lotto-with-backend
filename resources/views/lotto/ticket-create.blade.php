@@ -1,18 +1,21 @@
 @extends('layouts.app')
 @section('content')
+
     @if ($errors->any())
-        <div class="alert alert-danger">
+        <div id="error-alert" class="alert alert-danger alert-dismissible fade show">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
         </div>
+        
     @endif
 
     <div class="container">
-        <h1 class="text-center">Create Lotto Ticket</h1>
-        {{-- <form action="{{ route('lotto.ticket.store') }}" method="POST"> --}}
         <form action="{{ route('lotto.ticket.create') }}" method="POST" id="ticket-form" >
             @csrf
             <div id="ticket">
@@ -25,6 +28,6 @@
         <hr>
         <button  class="btn btn-primary" id="save-ticket" >Mentés</button>
     </div>
-
+    
 @endsection
 @section('title', 'Lotto Ticket Create')
